@@ -1,0 +1,306 @@
+---
+openapi: 3.0.0
+info:
+  title: User-service API
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/garlicjam0817/UserServiceAPI/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /users_service/login:
+    post:
+      tags:
+      - developers
+      summary: user login verification
+      operationId: login service
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: user logged login successful or Wrong username or password
+        "400":
+          description: Methods not defined
+  /users_service/user/reset_password:
+    post:
+      tags:
+      - developers
+      summary: user resetting password
+      operationId: resetting account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: changing successful, or wrong username and password
+        "400":
+          description: Anything wrong with password...
+  /users_service/create_new_user:
+    post:
+      tags:
+      - developers
+      summary: create a new user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: Register successfully, continue to log in
+        "400":
+          description: This email is already registered, try another one
+  /users_service/user/edit/<user_id>:
+    post:
+      tags:
+      - developers
+      summary: edit user
+      operationId: editUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: You have successfully edited the profile
+        "400":
+          description: You fail to edit the profile
+  /users_service/delete_user/<user_id>:
+    post:
+      tags:
+      - developers
+      summary: delete user
+      operationId: deleteUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: You have deleted the user
+        "400":
+          description: Something wrong with deleting user
+  /users_service/show_user/<user_id>:
+    get:
+      tags:
+      - developers
+      description: get user by the user id
+      operationId: getUserById
+      parameters:
+      - name: userId
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: user displayed with JSON response
+        "400":
+          description: NOT FOUND
+  /users_service/create_new_trip/<user_id>:
+    post:
+      tags:
+      - developers
+      summary: create trip
+      operationId: create_trip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Trip'
+      responses:
+        "200":
+          description: Added new trip
+        "400":
+          description: Something wrong with adding new trip...
+  /users_service/show_trips/<trip_id>:
+    get:
+      tags:
+      - developers
+      description: get user by the trip id
+      operationId: getTripByTripId
+      parameters:
+      - name: TripId
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: user displayed with JSON response
+        "400":
+          description: NOT FOUND
+  /users_service/edit_trips/<trip_id>:
+    post:
+      tags:
+      - developers
+      summary: edit trips
+      operationId: editTrips
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Trip'
+      responses:
+        "200":
+          description: You have successfully edited the trip
+        "400":
+          description: You fail to edit the trip
+  /users_service/delete_trip/<trip_id>:
+    get:
+      tags:
+      - developers
+      description: delete by  trip id
+      operationId: deleteTripByTripId
+      parameters:
+      - name: TripId
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: You have deleted the trip
+        "400":
+          description: Something wrong with deleting trip
+  /users_service/create_new_itinerary:
+    post:
+      tags:
+      - developers
+      summary: create itinerary
+      operationId: create_itinerary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Itinerary'
+      responses:
+        "200":
+          description: New itinerary registered successfully
+        "400":
+          description: Failed
+  /users_service/edit_itinerary/<itinerary_id>:
+    post:
+      tags:
+      - developers
+      summary: edit itinerary
+      operationId: editItinerary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Itinerary'
+      responses:
+        "200":
+          description: You have successfully edited the itinerary
+        "400":
+          description: You fail to edit the itinerary
+  /users_service/delete_itinerary/<itinerary_id>:
+    get:
+      tags:
+      - developers
+      description: delete byitinerary id
+      operationId: deleteTripByItineraryId
+      parameters:
+      - name: itineraryId
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: You have deleted the itinerary
+        "400":
+          description: Something wrong with deleting itinerary
+components:
+  schemas:
+    User:
+      required:
+      - user
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 12345
+        user_first_name:
+          type: string
+          example: Gary
+        user_last_name:
+          type: string
+          example: Jiang
+        user_name:
+          type: string
+          example: garyjiang
+        user_password:
+          type: string
+          example: test
+    Trip:
+      required:
+      - trip
+      type: object
+      properties:
+        trip_id:
+          type: integer
+          example: 1
+        user_id:
+          type: integer
+          example: 12345
+        destination:
+          type: string
+          example: China
+        origin:
+          type: string
+          example: Shanghai
+        num_people:
+          type: string
+          example: "2"
+        budget:
+          type: integer
+          example: 1000
+    Itinerary:
+      required:
+      - itinerary_id
+      type: object
+      properties:
+        itinerary_id:
+          type: integer
+          example: 1
+        trip_id:
+          type: integer
+          example: 1
+        total_cost:
+          type: integer
+          example: 250

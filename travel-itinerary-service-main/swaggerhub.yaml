@@ -1,0 +1,215 @@
+---
+openapi: 3.0.0
+info:
+  title: home-iot-api
+  description: The API for Itinerary Microservice
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/SONGFENGSHUO/Itinerary/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /api/health:
+    get:
+      tags:
+      - developers
+      summary: get health information
+      description: |
+        Health check endpoint
+      operationId: getHealth
+      responses:
+        "200":
+          description: server is good
+        "400":
+          description: server is down
+  /api/flight/update:
+    get:
+      tags:
+      - developers
+      summary: search for travel information
+      description: |
+        You can search for availalable travel information by passing parameters
+      operationId: getTravel
+      parameters:
+      - name: origin
+        in: query
+        description: pass the origin city for travel information
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: destination
+        in: query
+        description: pass the destination city for travel information
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: origin_code
+        in: query
+        description: pass the origin city airport code for travel information
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: destination_code
+        in: query
+        description: pass the destination city airport code for travel information
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: itinerary_id
+        in: query
+        description: pass the itinerary_id for travel information
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Itinerary'
+    put:
+      tags:
+      - developers
+      summary: Update Travel
+      description: |
+        You can update a travel record
+      operationId: updateTravel
+      parameters:
+      - name: travel_id
+        in: query
+        description: pass a travel id to search for the record to delete
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      - name: origin
+        in: query
+        description: origin city update
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: destination
+        in: query
+        description: destination city update
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: origin_code
+        in: query
+        description: origin city airport code update
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: destination_code
+        in: query
+        description: destination city airport code update
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: travel record updated
+        "404":
+          description: invalid input
+    post:
+      tags:
+      - developers
+      summary: create a record for travel
+      description: Adds a travel record
+      operationId: addTravel
+      requestBody:
+        description: Add a travel record
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Itinerary'
+      responses:
+        "201":
+          description: the record is created
+        "400":
+          description: inappropriate input format
+    delete:
+      tags:
+      - developers
+      summary: create a travel record
+      description: |
+        You can delete a travel record by id.
+      operationId: deleteTravel
+      parameters:
+      - name: travel_id
+        in: query
+        description: pass the travel id to delete
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: travel record is deleted
+components:
+  schemas:
+    Itinerary:
+      required:
+      - travel
+      type: object
+      properties:
+        itinerary_id:
+          type: integer
+          format: int32
+          example: 6
+        review_id:
+          type: integer
+          format: int32
+          example: 8
+        origin:
+          type: string
+          example: london
+        destination:
+          type: string
+          example: new york
+        origin_code:
+          type: string
+          example: LHR
+        destination_code:
+          type: string
+          example: JFK
+        departure_time:
+          type: string
+          example: 2022-12-22T21:30:00
+        arrival_time:
+          type: string
+          example: 2022-12-23T04:50:00
+        airline_name:
+          type: string
+          example: JetBlue
+        flight_num:
+          type: string
+          example: "1234"
+        cost:
+          type: number
+          example: 800

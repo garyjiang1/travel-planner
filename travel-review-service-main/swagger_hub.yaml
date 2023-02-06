@@ -1,0 +1,186 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/SI2400_1/Review/1.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Review API
+  contact:
+    email: si2400@columbia.edu
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /api/health:
+    get:
+      tags:
+        - developers
+      summary: search for a review
+      operationId: getReview
+      description: |
+        Health check endpoint
+      responses:
+        '200':
+          description: service is healthy
+        '400':
+          description: service is down
+
+  /api/review:
+    get:
+      tags:
+        - developers
+      summary: search for a review
+      operationId: getHealth
+      description: |
+        By passing in the appropriate options, you can search for
+        availalable review
+      parameters:
+        - in: query
+          name: city
+          description: pass a city as search string for looking up review
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: user_id
+          description: pass an user id as search string for looking up review
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: skip
+          description: number of records to skip for pagination
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - developers
+      summary: create a review of a trip
+      operationId: addReview
+      description: Adds a review for a trip
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+        description: Adds a review for a trip
+    delete:
+      tags:
+        - developers
+      summary: Deletes Review
+      operationId: deleteReview
+      description: |
+        By passing in the appropriate options, you can search for
+        review to delete
+      parameters:
+        - in: query
+          name: user_id
+          description: pass a user id as search string for looking up review to delete
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: city
+          description: pass city as search string for looking up review to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: review deleted
+        '400':
+          description: 'invalid input, object invalid'
+    put:
+      tags:
+        - developers
+      summary: Update Review
+      operationId: updateReview
+      description: |
+        By passing in the appropriate options, you can search for
+        review to update
+      parameters:
+        - in: query
+          name: user_id
+          description: pass a user id as search string for looking up review to delete
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: city
+          description: pass city as search string for looking up review to delete
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: rating
+          description: pass rating as search string for looking up review to delete
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: review
+          description: pass review as search string for looking up review to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: review updated
+        '400':
+          description: 'invalid input, object invalid'
+components:
+  schemas:
+    Review:
+      required:
+        - review
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        review:
+          type: string
+          example: Great place for family!
+        rating:
+          type: integer
+          example: 4
+        user_id:
+          type: string
+          example: 3233342
+        city:
+          type: string
+          example: london
+      type: object
